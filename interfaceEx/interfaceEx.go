@@ -17,7 +17,13 @@ func main() {
 
 	//test5()
 
-	test6()
+	//test6()
+
+	//test7()
+
+	//test8()
+
+	test9()
 }
 
 type Stringer interface {
@@ -114,4 +120,91 @@ func test6() { // tab ,data都是nil,介面才是nil
 	// tab    *int     , data = nil
 	fmt.Println(a == nil, ia)
 	fmt.Println(b == nil, ib, reflect.ValueOf(b).IsNil())
+}
+
+///
+type User5 struct {
+	id   int
+	name string
+}
+
+func (self *User5) String() string {
+	return fmt.Sprintf("%d, %s", self.id, self.name)
+}
+
+// func (self User5) String() string {
+// 	return fmt.Sprintf("%d, %s", self.id, self.name)
+// }
+
+func test7() {
+	var o interface{} = &User5{1, "Tom"}
+	if i, ok := o.(fmt.Stringer); ok { // ok-idiom
+		fmt.Println(i)
+
+	}
+	u := o.(*User5)
+	// u := o.(User)
+	fmt.Println(u)
+
+	// var o2 interface{} = User5{1, "Tom"}
+	// if i, ok := o2.(fmt.Stringer); ok { // ok-idiom
+	// 	fmt.Println(i)
+
+	// }
+	// u2 := o2.(User5)
+	// // u := o.(User5)
+	// fmt.Println(u2)
+
+	var o3 interface{} = &User5{1, "Tom"}
+	switch v := o3.(type) {
+	case nil:
+		fmt.Println("nil")
+	case fmt.Stringer:
+		fmt.Println(v)
+	case func() string:
+		fmt.Println(v())
+	case *User:
+		fmt.Printf("%d, %s\n", v.id, v.name)
+	default:
+		fmt.Println("unknown")
+	}
+}
+
+///
+type Stringer2 interface {
+	String() string
+}
+type Printer2 interface {
+	String() string
+	Print()
+}
+
+type User6 struct {
+	id   int
+	name string
+}
+
+func (self *User6) String() string {
+	return fmt.Sprintf("%d, %v", self.id, self.name)
+}
+func (self *User6) Print() {
+	fmt.Println(self.String())
+}
+func test8() {
+	var o Printer2 = &User6{1, "Tom"}
+	var s Stringer2 = o
+	fmt.Println(s.String())
+}
+
+///
+//var _ fmt.Stringer = (*Data)(nil)
+type Tester2 interface {
+	Do()
+}
+type FuncDo func()
+
+func (self FuncDo) Do() { self() }
+func test9() {
+	var t Tester2 = FuncDo(func() { println("Hello, World!") })
+	t.Do()
 }
