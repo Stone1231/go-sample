@@ -74,6 +74,7 @@ func test3() {
 		defer wg.Done()
 		println("Hello, World!")
 	}
+	//先A後B
 	go B()
 	go A()
 
