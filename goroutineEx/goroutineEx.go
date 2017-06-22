@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math"
 	"runtime"
 	"sync"
@@ -10,7 +11,9 @@ func main() {
 	//test1()
 	//test12()
 	//test2()
-	test3()
+	//test3()
+	//test4()
+	test5()
 }
 
 ///WaitGroup
@@ -79,4 +82,47 @@ func test3() {
 	go A()
 
 	wg.Wait()
+}
+
+///
+func test4() {
+	data := make(chan int)  //數據交換
+	exit := make(chan bool) //退出通知
+
+	go func() {
+		for d := range data { //佇列接收通知直到close
+			fmt.Println(d)
+		}
+		fmt.Println("recv over.")
+		exit <- true //發出退出通知
+	}()
+
+	data <- 1 //發出數據
+	data <- 2
+	data <- 3
+
+	close(data) //關閉佇列
+
+	fmt.Println("send over.")
+
+	<-exit //等待退出通知
+}
+
+//
+func test5() {
+	data := make(chan int, 3) //緩衝區可儲存3個元素
+	exit := make(chan bool)
+	data <- 1 //緩衝區未滿前不會阻塞
+	data <- 2
+	data <- 3
+	go func() {
+		for d := range data { // 緩衝區為空前不會阻塞
+			fmt.Println(d)
+		}
+		exit <- true
+	}()
+	//data <- 4 //如果緩衝區已滿,阻塞
+	//data <- 5
+	<-exit
+
 }
