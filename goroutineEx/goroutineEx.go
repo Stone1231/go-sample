@@ -6,19 +6,25 @@ import (
 	"os"
 	"runtime"
 	"sync"
+	"time"
 )
 
 func main() {
 	//test1()
-	//test12()
+	//test1b()
 	//test2()
 	//test3()
-	//test32()
+	//test3b()
 	//test4()
 	//test5()
 	//test6()
 	//test7()
-	test8()
+	//test8()
+	//test9()
+	//test10()
+	//test11()
+	//test12()
+	test13()
 }
 
 ///WaitGroup
@@ -42,7 +48,7 @@ func test1() {
 	wg.Wait()
 }
 
-func test12() {
+func test1b() {
 	for i := 0; i < 3; i++ {
 		sum(i)
 	}
@@ -89,7 +95,7 @@ func test3() {
 	wg.Wait()
 }
 
-func test32() {
+func test3b() {
 	wg := new(sync.WaitGroup)
 	wg.Add(3)
 	var A = func() {
@@ -234,4 +240,112 @@ func test8() {
 	}
 	close(a)
 	select {} //沒有可用channel, 阻塞main goroutine
+}
+
+//簡單工廠模式
+func NewConsumer() chan int {
+	data := make(chan int, 3)
+	go func() {
+		for d := range data {
+			fmt.Println(d)
+		}
+		os.Exit(0)
+	}()
+	return data
+}
+func test9() {
+	data := NewConsumer()
+	data <- 1
+	data <- 2
+	close(data)
+	select {}
+}
+
+///channel 實現號誌(Semaphore)
+func test10() {
+	wg := sync.WaitGroup{}
+	wg.Add(3)
+	sem := make(chan int, 1)
+	for i := 0; i < 3; i++ {
+		go func(id int) {
+			defer wg.Done()
+			sem <- 1 //發送給sem, 阻塞或成功
+			for x := 0; x < 3; x++ {
+				fmt.Println(id, x)
+			}
+			<-sem //接收數據後,使其他阻塞可以發送數據
+		}(i)
+	}
+	wg.Wait()
+}
+
+//使用closed channel發出退出通知
+func test11() {
+	var wg sync.WaitGroup
+	quit := make(chan bool)
+	for i := 0; i < 2; i++ {
+		wg.Add(1)
+
+		go func(id int) {
+			defer wg.Done()
+			task := func() {
+				println(id, time.Now().Nanosecond())
+				time.Sleep(time.Second)
+			}
+			for {
+				select {
+				case <-quit: //closed channel不會阻塞,可用作退出通知
+					return
+				default: //執行正常任務
+					task()
+				}
+			}
+		}(i)
+	}
+
+	time.Sleep(time.Second * 5) //讓goroutine執行一段時間
+	close(quit)                 //發出退出通知
+	wg.Wait()
+	println("the end")
+}
+
+//select 實現超時
+func test12() {
+	w := make(chan bool)
+	c := make(chan int, 2)
+	go func() {
+		select {
+		case v := <-c:
+			fmt.Println(v)
+		case <-time.After(time.Second * 2):
+			fmt.Println("timeout 2.")
+		case <-time.After(time.Second * 3):
+			fmt.Println("timeout 3.")
+		}
+		w <- true
+	}()
+	//c <- 1 // 註解掉引發timeout
+	<-w
+}
+
+///
+type Request struct {
+	data []int
+	ret  chan int
+}
+
+func NewRequest(data ...int) *Request {
+	return &Request{data, make(chan int, 1)}
+}
+func Process(req *Request) {
+	x := 0
+	for _, i := range req.data {
+		x += i
+	}
+	req.ret <- x
+}
+func test13() {
+	req := NewRequest(10, 20, 30)
+	Process(req)
+	fmt.Println(<-req.ret)
 }
