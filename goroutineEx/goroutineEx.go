@@ -22,9 +22,10 @@ func main() {
 	//test8()
 	//test9()
 	//test10()
-	//test11()
+	test11()
 	//test12()
-	test13()
+	//test13()
+	//test14()
 }
 
 ///WaitGroup
@@ -71,7 +72,7 @@ func test2() {
 	wg.Wait()
 }
 
-///
+///runtime.Gosched 當前goroutine暫停,放回佇列等待下次被呼叫執行
 func test3() {
 	wg := new(sync.WaitGroup)
 	wg.Add(2)
@@ -319,8 +320,6 @@ func test12() {
 			fmt.Println(v)
 		case <-time.After(time.Second * 2):
 			fmt.Println("timeout 2.")
-		case <-time.After(time.Second * 3):
-			fmt.Println("timeout 3.")
 		}
 		w <- true
 	}()
@@ -342,10 +341,28 @@ func Process(req *Request) {
 	for _, i := range req.data {
 		x += i
 	}
+	time.Sleep(2 * time.Second)
 	req.ret <- x
 }
 func test13() {
 	req := NewRequest(10, 20, 30)
-	Process(req)
+	go Process(req)
+	fmt.Println("go others...")
 	fmt.Println(<-req.ret)
+}
+
+//
+func test14() {
+	c := make(chan int) // Allocate a channel.
+	// Start the sort in a goroutine; when it completes, signal on the channel.
+	go func() {
+		//list.Sort()
+		time.Sleep(2 * time.Second)
+		fmt.Println("B")
+		c <- 1 // Send a signal; value does not matter.
+	}()
+	fmt.Println("A")
+	//doSomethingForAWhile()
+	<-c // Wait for sort to finish; discard sent value.
+	fmt.Println("C")
 }
