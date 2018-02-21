@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math"
 	"os"
 	"runtime"
@@ -10,22 +11,39 @@ import (
 )
 
 func main() {
-	//test1()
-	//test1b()
-	//test2()
-	//test3()
-	//test3b()
-	//test4()
-	//test5()
-	//test6()
-	//test7()
-	//test8()
-	//test9()
-	//test10()
-	test11()
-	//test12()
-	//test13()
-	//test14()
+	// printGo()
+	// sumGo()
+	// sumNoGo()
+	// exitGoroutine()
+	// goSched()
+	// multiGo()
+	// chan1()
+	// chan2()
+	// showLenCap()
+	// onlySendReceive()
+	// selectChannel()
+	// callNewConsumer()
+	// semaphore()
+	// quitByClosedChannel()
+	// timeoutBySelect()
+	// multiProcess()
+	// waitGoFinish()
+	// emptyStruct()
+	// chanClose()
+	// twoGosync()
+	syncOnce()
+}
+
+func printGo() {
+	go func() {
+		for {
+			fmt.Println("A")
+		}
+	}()
+
+	for {
+		fmt.Println("B")
+	}
 }
 
 ///WaitGroup
@@ -37,7 +55,7 @@ func sum(id int) {
 	println(id, x)
 }
 
-func test1() {
+func sumGo() {
 	wg := new(sync.WaitGroup)
 	wg.Add(3)
 	for i := 0; i < 3; i++ {
@@ -49,14 +67,14 @@ func test1() {
 	wg.Wait()
 }
 
-func test1b() {
+func sumNoGo() {
 	for i := 0; i < 3; i++ {
 		sum(i)
 	}
 }
 
 ///Goexit
-func test2() {
+func exitGoroutine() {
 	wg := new(sync.WaitGroup)
 	wg.Add(1)
 	go func() {
@@ -73,13 +91,14 @@ func test2() {
 }
 
 ///runtime.Gosched 當前goroutine暫停,放回佇列等待下次被呼叫執行
-func test3() {
+func goSched() {
 	wg := new(sync.WaitGroup)
 	wg.Add(2)
 	var A = func() {
 		defer wg.Done()
 		for i := 0; i < 6; i++ {
 			println(i)
+			time.Sleep(1 * time.Second)
 			if i == 3 {
 				runtime.Gosched()
 			}
@@ -96,7 +115,7 @@ func test3() {
 	wg.Wait()
 }
 
-func test3b() {
+func multiGo() {
 	wg := new(sync.WaitGroup)
 	wg.Add(3)
 	var A = func() {
@@ -134,13 +153,15 @@ func test3b() {
 }
 
 ///
-func test4() {
+func chan1() {
 	data := make(chan int)  //數據交換
 	exit := make(chan bool) //退出通知
 
 	go func() {
 		for d := range data { //佇列接收通知直到close
+			time.Sleep(time.Second * 2)
 			fmt.Println(d)
+
 		}
 		fmt.Println("recv over.")
 		exit <- true //發出退出通知
@@ -155,10 +176,10 @@ func test4() {
 	fmt.Println("send over.")
 
 	<-exit //等待退出通知
+	fmt.Println("exit")
 }
 
-//有問題？
-func test5() {
+func chan2() {
 	data := make(chan int, 3) //緩衝區可儲存3個元素
 	exit := make(chan bool)
 	data <- 1 //緩衝區未滿前不會阻塞
@@ -173,18 +194,19 @@ func test5() {
 	}()
 	data <- 4
 	data <- 5
+	//close(data) //會error
 	for index := 0; index < 3000; index++ {
 		data <- index
 	}
-	fmt.Println("xxxx")
-	close(data)
-	fmt.Println("vvv")
+	fmt.Println("before close")
+	close(data) //如果沒close會阻塞在上面的for …… range
+	fmt.Println("after close")
 	<-exit
-	fmt.Println("ooo")
+	fmt.Println("exit")
 }
 
 //
-func test6() {
+func showLenCap() {
 	//ok-idiom 模式判斷channel是否關閉
 	// for {
 	// 	if d, ok := <-data; ok {
@@ -196,13 +218,14 @@ func test6() {
 
 	d1 := make(chan int)
 	d2 := make(chan int, 3)
+	// d1 <- 2 //無緩衝又沒接收,會error
 	d2 <- 1
 	fmt.Println(len(d1), cap(d1)) // 0  0
 	fmt.Println(len(d2), cap(d2)) // 1  3
 }
 
 //
-func test7() {
+func onlySendReceive() {
 	c := make(chan int, 3)
 	var send chan<- int = c // send-only
 	var recv <-chan int = c // receive-only
@@ -215,13 +238,13 @@ func test7() {
 }
 
 //select channel
-func test8() {
+func selectChannel() {
 	a, b := make(chan int, 3), make(chan int)
 	go func() {
 		v, ok, s := 0, false, ""
 		for {
 			select {
-			case v, ok = <-a:
+			case v, ok = <-a: //加上ok布林值表示是否成功接收
 				s = "a"
 			case v, ok = <-b:
 				s = "b"
@@ -254,7 +277,7 @@ func NewConsumer() chan int {
 	}()
 	return data
 }
-func test9() {
+func callNewConsumer() {
 	data := NewConsumer()
 	data <- 1
 	data <- 2
@@ -263,7 +286,11 @@ func test9() {
 }
 
 ///channel 實現號誌(Semaphore)
-func test10() {
+//Semaphore是一件可以容納N人的房間，如果人不滿就可以進去，
+//如果人滿了，就要等待有人出來。
+//對於N=1的情況，稱為binary semaphore。
+//一般的用法是，用於限制對於某一資源的同時訪問。
+func semaphore() {
 	wg := sync.WaitGroup{}
 	wg.Add(3)
 	sem := make(chan int, 1)
@@ -281,7 +308,7 @@ func test10() {
 }
 
 //使用closed channel發出退出通知
-func test11() {
+func quitByClosedChannel() {
 	var wg sync.WaitGroup
 	quit := make(chan bool)
 	for i := 0; i < 2; i++ {
@@ -311,7 +338,7 @@ func test11() {
 }
 
 //select 實現超時
-func test12() {
+func timeoutBySelect() {
 	w := make(chan bool)
 	c := make(chan int, 2)
 	go func() {
@@ -344,7 +371,7 @@ func Process(req *Request) {
 	time.Sleep(2 * time.Second)
 	req.ret <- x
 }
-func test13() {
+func multiProcess() {
 	req := NewRequest(10, 20, 30)
 	go Process(req)
 	fmt.Println("go others...")
@@ -352,7 +379,7 @@ func test13() {
 }
 
 //
-func test14() {
+func waitGoFinish() {
 	c := make(chan int) // Allocate a channel.
 	// Start the sort in a goroutine; when it completes, signal on the channel.
 	go func() {
@@ -365,4 +392,86 @@ func test14() {
 	//doSomethingForAWhile()
 	<-c // Wait for sort to finish; discard sent value.
 	fmt.Println("C")
+}
+
+func emptyStruct() {
+	a := struct{}{}
+	b := struct{}{}
+
+	log.Println(a == b)            // true
+	log.Printf("%p, %p\n", &a, &b) // 0x7bb7f8, 0x7bb7f8
+}
+
+func chanClose() {
+	done := make(chan struct{})
+
+	fmt.Printf("start")
+
+	go func() {
+		os.Stdin.Read(make([]byte, 1)) // read a single byte
+		close(done)
+	}()
+
+	go func() {
+		<-done
+		fmt.Printf("done-1\n")
+	}()
+
+	go func() {
+		<-done
+		fmt.Printf("done-2\n")
+	}()
+
+loop:
+	for {
+		select {
+		case <-done:
+			time.Sleep(time.Second * 1)
+			break loop
+		}
+	}
+
+	fmt.Printf("end\n")
+}
+
+func twoGosync() {
+	var x, y int
+	go func() {
+		x = 1                   //A1
+		fmt.Print("y:", y, " ") //A2
+	}()
+
+	go func() {
+		y = 1                   //B1
+		fmt.Print("x:", x, " ") //B2
+	}()
+
+	//A1,B1,A2,B2 OR B1,A1,A2,B2..各種順序都有可能
+
+	for {
+	}
+}
+
+func syncOnce() {
+
+	var do = func(o *sync.Once) {
+
+		fmt.Println("Start do")
+
+		o.Do(func() {
+
+			fmt.Println("Doing something...") //只會執行一次
+
+		})
+
+		fmt.Println("Do end")
+	}
+
+	o := &sync.Once{}
+
+	go do(o)
+
+	go do(o)
+
+	time.Sleep(time.Second * 2)
 }

@@ -3,15 +3,15 @@ package main
 import "fmt"
 
 func main() {
-	// test1()
+	// array1()
 
-	// test2()
+	// array2()
 
-	// test3()
+	// array3()
 
-	// test4main()
+	// array4()
 
-	// test5()
+	// array5()
 
 	//slice1()
 
@@ -43,7 +43,7 @@ func main() {
 	map4()
 }
 
-func test1() {
+func array1() {
 	a := []int{0, 0, 0}
 	a[1] = 10
 	b := make([]int, 3) //makeslice
@@ -54,7 +54,7 @@ func test1() {
 }
 
 ///array是值類型
-func test2() {
+func array2() {
 	a := [3]int{1, 2}
 	b := [...]int{1, 2, 3, 4}
 	c := [5]int{2: 100, 4: 200}
@@ -69,26 +69,26 @@ func test2() {
 }
 
 ///多維
-func test3() {
+func array3() {
 	a := [2][3]int{{1, 2, 3}, {4, 5, 6}}
 	b := [...][2]int{{1, 1}, {2, 2}, {3, 3}} //   第2維度不能用"..."
 	fmt.Println(a[1][1], b[2][1])
 }
 
 ///copy會影響效能
-func test4(x [2]int) {
+func copyArray4(x [2]int) {
 	fmt.Printf("x: %p\n", &x)
 	x[1] = 1000
 }
-func test4main() {
+func array4() {
 	a := [2]int{}
 	fmt.Printf("a: %p\n", &a)
-	test4(a)
+	copyArray4(a)
 	fmt.Println(a)
 }
 
 ///count
-func test5() {
+func array5() {
 	a := [2]int{}
 	println(len(a), cap(a)) // 2, 2
 }

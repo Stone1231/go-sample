@@ -5,13 +5,33 @@ import (
 )
 
 func main() {
+	fmt.Println("test1")
 	test1()
+	fmt.Println()
+
+	fmt.Println("test2")
 	test2()
+	fmt.Println()
+
+	fmt.Println("test3")
 	test3()
+	fmt.Println()
+
+	fmt.Println("test4")
 	test4()
+	fmt.Println()
+
+	fmt.Println("test5")
 	test5()
+	fmt.Println()
+
+	fmt.Println("test6")
 	test6()
+	fmt.Println()
+
+	fmt.Println("test7")
 	test7()
+	fmt.Println()
 }
 
 func test1() {
@@ -44,6 +64,7 @@ func test4() {
 	// ello
 }
 
+//rune int32
 func test5() {
 	fmt.Printf("%T\n", 'a')
 	var c1, c2 rune = '\u6211', '們'
