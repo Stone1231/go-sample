@@ -6,27 +6,35 @@ import (
 
 func main() {
 
-	// test1()
+	// nodeData()
 
-	// test2()
+	// newInit()
 
-	// test3()
+	// attrStruct()
 
-	//testMap()
+	// mapKeyUseStruct()
 
-	//test5()
+	// attrOtherName()
 
-	//test7()
+	// attrStruct2()
 
-	//test8()
+	// attrStruct3()
 
-	//test9()
+	// attrStruct4()
 
-	//test10()
+	// pointerStruct()
 
-	test11()
+	newInit2()
 }
-func test1() {
+
+type Node struct {
+	_    int
+	id   int
+	data *byte
+	next *Node
+}
+
+func nodeData() {
 	n1 := Node{
 		id:   1,
 		data: nil,
@@ -37,17 +45,11 @@ func test1() {
 		next: &n1,
 	}
 	fmt.Println(n2.id)
-}
-
-type Node struct {
-	_    int
-	id   int
-	data *byte
-	next *Node
+	fmt.Println(n2.next.id)
 }
 
 //
-func test2() {
+func newInit() {
 	type User struct {
 		name string
 		age  int
@@ -58,7 +60,7 @@ func test2() {
 }
 
 //
-func test3() {
+func attrStruct() {
 	type File struct {
 		name string
 		size int
@@ -71,22 +73,27 @@ func test3() {
 		name: "test.txt",
 		size: 1025,
 		// attr: {0755, 1}, // Error: missing type in composite literal
+		attr: struct {
+			perm  int
+			owner int
+		}{4, 3},
 	}
+	fmt.Println(f.attr.owner)
 
 	f.attr.owner = 1
 	f.attr.perm = 0755
+	fmt.Println(f.attr.owner)
+
 	var attr = struct {
 		perm  int
 		owner int
 	}{2, 0756} //0...8進位, 0x...16進位
-
 	f.attr = attr
-
 	fmt.Println(f.attr.owner)
 }
 
 //
-func testMap() {
+func mapKeyUseStruct() {
 	type User struct {
 		id   int
 		name string
@@ -111,13 +118,14 @@ func testMap() {
 }
 
 //
-func test5() {
+func attrOtherName() {
 	var u1 struct {
 		name string "username"
 	}
 	var u2 struct{ name string }
 	//u2 = u1 // Error: cannot use u1 (type struct { name string "username" }) as
 	//        type struct { name string } in assignment
+
 	u1.name = "name1"
 	fmt.Println(u1.name)
 	u2.name = "name2"
@@ -131,7 +139,7 @@ func testNull() {
 }
 
 //
-func test7() {
+func attrStruct2() {
 	type User struct {
 		name string
 	}
@@ -148,7 +156,7 @@ func test7() {
 }
 
 //
-func test8() {
+func attrStruct3() {
 	type Resource struct {
 		id int
 	}
@@ -168,7 +176,7 @@ func test8() {
 }
 
 //
-func test9() {
+func attrStruct4() {
 
 	type Resource struct {
 		id   int
@@ -194,7 +202,7 @@ func test9() {
 }
 
 //
-func test10() {
+func pointerStruct() {
 	type Resource struct {
 		id int
 	}
@@ -213,7 +221,7 @@ func test10() {
 }
 
 //
-func test11() {
+func newInit2() {
 	type User struct {
 		id   int
 		name string
@@ -225,6 +233,6 @@ func test11() {
 
 	m := Manager{User{1, "Tom"}, "Administrator"}
 	// var u User = m // Error: cannot use m (type Manager) as type User in assignment //  互休       互
-	var u User = m.User //
+	var u = m.User // u := m.User
 	fmt.Println(u.name)
 }
