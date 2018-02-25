@@ -7,23 +7,23 @@ import (
 )
 
 func main() {
-	//test1()
+	//printerInterface()
 
-	//test2()
+	//smartyInterface()
 
-	//test3()
+	//attrInterface()
 
-	//test4()
+	//printerInterface2()
 
-	//test5()
+	//printerInterface3()
 
-	//test6()
+	//uintptrUnsafe()
 
-	//test7()
+	//converPointer()
 
-	//test8()
+	//converPointer2()
 
-	test9()
+	methodInterface()
 }
 
 type Stringer interface {
@@ -44,7 +44,7 @@ func (self *User) String() string {
 func (self *User) Print() {
 	fmt.Println(self.String())
 }
-func test1() {
+func printerInterface() {
 	var t Printer = &User{1, "Tom"} // *User 方法集包含 String、Print。
 	t.Print()
 }
@@ -53,7 +53,7 @@ func test1() {
 func Print(v interface{}) { //無任何方法,所有的類別都實現了空介面
 	fmt.Printf("%T: %v\n", v, v)
 }
-func test2() {
+func smartyInterface() {
 	Print(1)
 	Print("Hello, World!")
 }
@@ -64,6 +64,7 @@ type Tester struct {
 		String() string
 	}
 }
+
 type User2 struct {
 	id   int
 	name string
@@ -72,7 +73,7 @@ type User2 struct {
 func (self *User2) String() string {
 	return fmt.Sprintf("user %d, %s", self.id, self.name)
 }
-func test3() {
+func attrInterface() {
 	t := Tester{&User2{1, "Tom"}}
 	fmt.Println(t.s.String())
 }
@@ -83,13 +84,30 @@ type User3 struct {
 	name string
 }
 
-func test4() {
+func printerInterface2() {
 	u := User3{1, "Tom"}
 	var i interface{} = u //複製品
+	var j = u             //複製品
+	var k = &u            //變更會互相影響
+
 	u.id = 2
 	u.name = "Jack"
-	fmt.Printf("%v\n", u)
-	fmt.Printf("%v\n", i.(User3))
+
+	fmt.Printf("u:%v\n", u)
+	fmt.Printf("j:%v\n", j)
+
+	j.id = 3
+	j.name = "lisa"
+
+	fmt.Printf("u:%v\n", u)
+
+	k.id = 4
+	k.name = "rita"
+
+	fmt.Printf("u:%v\n", u)
+	fmt.Printf("i:%v\n", i.(User3))
+	fmt.Printf("j:%v\n", j)
+
 }
 
 ///介面轉型 只有指標才能修改狀態
@@ -98,7 +116,7 @@ type User4 struct {
 	name string
 }
 
-func test5() {
+func printerInterface3() {
 	u := User4{1, "Tom"}
 	var vi, pi interface{} = u, &u
 	//vi.(User).name = "Jack" // Error: cannot assign to vi.(User).name
@@ -108,7 +126,7 @@ func test5() {
 }
 
 ///
-func test6() { // tab ,data都是nil,介面才是nil
+func uintptrUnsafe() { // tab ,data都是nil,介面才是nil
 	var a interface{} = nil         // tab = nil, data = nil
 	var b interface{} = (*int)(nil) // tab包含*int, data = nil
 	type iface struct {
@@ -136,7 +154,7 @@ func (self *User5) String() string {
 // 	return fmt.Sprintf("%d, %s", self.id, self.name)
 // }
 
-func test7() {
+func converPointer() {
 	var o interface{} = &User5{1, "Tom"}
 	if i, ok := o.(fmt.Stringer); ok { // ok-idiom
 		fmt.Println(i)
@@ -154,7 +172,7 @@ func test7() {
 	// u2 := o2.(User5)
 	// // u := o.(User5)
 	// fmt.Println(u2)
-
+	fmt.Println("switch")
 	var o3 interface{} = &User5{1, "Tom"}
 	switch v := o3.(type) {
 	case nil:
@@ -190,7 +208,7 @@ func (self *User6) String() string {
 func (self *User6) Print() {
 	fmt.Println(self.String())
 }
-func test8() {
+func converPointer2() {
 	var o Printer2 = &User6{1, "Tom"}
 	var s Stringer2 = o
 	fmt.Println(s.String())
@@ -204,7 +222,7 @@ type Tester2 interface {
 type FuncDo func()
 
 func (self FuncDo) Do() { self() }
-func test9() {
+func methodInterface() {
 	var t Tester2 = FuncDo(func() { println("Hello, World!") })
 	t.Do()
 }
