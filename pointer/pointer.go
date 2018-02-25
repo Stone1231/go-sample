@@ -6,12 +6,12 @@ import (
 )
 
 func main() {
-	test1()
-	test2()
-	test3()
+	// structPointer()
+	// byteArray()
+	uintptrOffset()
 }
 
-func test1() {
+func structPointer() {
 	type data struct{ a int }
 	var d = data{1234}
 	var p *data
@@ -20,7 +20,7 @@ func test1() {
 	fmt.Printf("%p, %v\n", p, p.a)
 }
 
-func test2() {
+func byteArray() {
 	x := 0x12345678
 	p := unsafe.Pointer(&x)
 	n := (*[4]byte)(p)
@@ -29,7 +29,7 @@ func test2() {
 	}
 }
 
-func test3() {
+func uintptrOffset() {
 	d := struct {
 		s string
 		x int
