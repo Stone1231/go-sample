@@ -13,7 +13,7 @@ func main() {
 
 	// array5()
 
-	//slice1()
+	slice1()
 
 	// slice2()
 
@@ -40,7 +40,7 @@ func main() {
 
 	//map3()
 
-	map4()
+	//map4()
 }
 
 func array1() {
