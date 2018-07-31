@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 )
 
@@ -32,6 +33,10 @@ func main() {
 	fmt.Println("test7")
 	test7()
 	fmt.Println()
+
+	fmt.Println("reverseStr")
+
+	fmt.Println(reverseStr("abcde"))
 }
 
 func test1() {
@@ -94,4 +99,13 @@ func test7() {
 		fmt.Printf("%c,", r) // rune
 	}
 	fmt.Println()
+}
+
+func reverseStr(s string) string {
+	var buffer bytes.Buffer
+	l := len(s)
+	for index := l - 1; index >= 0; index-- {
+		buffer.WriteByte(s[index])
+	}
+	return buffer.String()
 }
