@@ -1,22 +1,51 @@
 package dsa
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func Test_Array1(t *testing.T) {
-	array_ex1()
+	a := []int{0, 0, 0}
+	a[1] = 10
+	b := make([]int, 3) //makeslice
+	b[1] = 10
+	//c := new([]int)
+	//c[1] = 10  Error: invalid operation: c[1] (index of type *[]int)
+	fmt.Println(a[1], b[1])
 }
+
+//array是值類型
 func Test_Array2(t *testing.T) {
-	array_ex2()
+	a := [3]int{1, 2}
+	b := [...]int{1, 2, 3, 4}
+	c := [5]int{2: 100, 4: 200}
+	d := [...]struct {
+		name string
+		age  uint8
+	}{
+		{"user1", 10},
+		{"user2", 20},
+	}
+	fmt.Println(a[2], b[2], c[2], d[1].name)
 }
 
+//多維
 func Test_Array3(t *testing.T) {
-	array_ex3()
+	a := [2][3]int{{1, 2, 3}, {4, 5, 6}}
+	b := [...][2]int{{1, 1}, {2, 2}, {3, 3}} //   第2維度不能用"..."
+	fmt.Println(a[1][1], b[2][1])
 }
 
-func Test_Array4(t *testing.T) {
-	array_ex4()
+func Test_arrayValPtr(t *testing.T) {
+	a := [4]int{}
+	fmt.Printf("a: %p\n", &a)
+	arrayVal(a, 1, 1000)
+	arrayPtr(&a, 1, 2000)
+	fmt.Println(a)
 }
 
-func Test_Array5(t *testing.T) {
-	array_ex5()
+func Test_ArrayLen(t *testing.T) {
+	a := [2]int{}
+	println(len(a), cap(a)) // 2, 2
 }
