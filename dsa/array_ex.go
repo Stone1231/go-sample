@@ -1,6 +1,9 @@
 package dsa
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
 //copy會影響效能
 func arrayVal(a [4]int, i int, v int) {
@@ -18,4 +21,25 @@ func printArrayItemAddress(a *[4]int) {
 		fmt.Printf("&array-%v %p \n", index, &(*a)[index])
 	}
 	fmt.Println()
+}
+
+func GetRandArray(length int, max int) []int {
+	a := make([]int, length)
+
+	for index := 0; index < length; index++ {
+		a[index] = rand.Intn(max)
+	}
+
+	return a
+}
+
+func GetRandArray2D(n int, m int, max int) [][]int {
+	aa := make([][]int, n)
+
+	for i := 0; i < n; i++ {
+		a := GetRandArray(m, max)
+		aa[i] = a
+	}
+
+	return aa
 }

@@ -59,3 +59,11 @@ func Test_ArrayLen(t *testing.T) {
 	a := [2]int{}
 	println(len(a), cap(a)) // 2, 2
 }
+
+func Test_randomArray(t *testing.T) {
+	fmt.Println(GetRandArray(100, 8))
+}
+
+func Test_randomArray2D(t *testing.T) {
+	fmt.Println(GetRandArray2D(50, 100, 8))
+}
