@@ -5,38 +5,52 @@ import (
 	"testing"
 )
 
-func Test_spiralOrder(t *testing.T) {
-	matrix := [][]int{
-		[]int{1, 2, 3},
-		[]int{4, 5, 6},
-		[]int{7, 8, 9},
+func generateMatrix(n int) [][]int {
+
+	left, right, top, bottom := 0, n-1, 0, n-1
+
+	i := 0
+
+	res := make([][]int, n)
+	for index := range res {
+		res[index] = make([]int, n)
 	}
 
-	// matrix = [][]int{}
+	s := 0
+	for left <= right {
+		s = left
+		for s <= right {
+			i++
+			res[top][s] = i
+			s++
+		}
+		top++
 
-	matrix = [][]int{
-		[]int{2, 3, 4},
-		[]int{5, 6, 7},
-		[]int{8, 9, 10},
-		[]int{11, 12, 13},
+		s = top
+		for s <= bottom {
+			i++
+			res[s][right] = i
+			s++
+		}
+		right--
+
+		s = right
+		for s >= left {
+			i++
+			res[bottom][s] = i
+			s--
+		}
+		bottom--
+
+		s = bottom
+		for s >= top {
+			i++
+			res[s][left] = i
+			s--
+		}
+		left++
 	}
-
-	fmt.Println(spiralOrder(matrix))
-}
-
-type Matrix struct {
-	array  *[][]int
-	idx    int
-	rows   int
-	cols   int
-	length int
-	data   []int
-	id     int
-}
-
-func (self *Matrix) insert(item int) {
-	self.data[self.id] = item
-	self.id++
+	return res
 }
 
 func spiralOrder(matrix [][]int) []int {
@@ -47,94 +61,88 @@ func spiralOrder(matrix [][]int) []int {
 	}
 	row1 := matrix[0]
 	cols := len(row1)
-	length := rows * cols
-	m := Matrix{
-		array:  &matrix,
-		idx:    0,
-		rows:   rows,
-		cols:   cols,
-		length: length,
-		data:   make([]int, length),
-		id:     0,
-	}
 
-	top(&m)
-	return m.data
+	left, right, top, bottom := 0, cols-1, 0, rows-1
+
+	res := []int{}
+
+	s := 0
+	for left <= right { // && top <= bottom
+		s = left
+		for s <= right {
+			res = append(res, matrix[top][s])
+			s++
+		}
+		top++
+		if top > bottom {
+			break
+		}
+
+		s = top
+		for s <= bottom {
+			res = append(res, matrix[s][right])
+			s++
+		}
+		right--
+		if left > right {
+			break
+		}
+
+		s = right
+		for s >= left {
+			res = append(res, matrix[bottom][s])
+			s--
+		}
+		bottom--
+		if top > bottom {
+			break
+		}
+
+		s = bottom
+		for s >= top {
+			res = append(res, matrix[s][left])
+			s--
+		}
+		left++
+		// if left > right {
+		// 	break
+		// }
+	}
+	return res
 }
 
-//func top(idx int, id int, matrix [][]int, data *[]int) {
-func top(m *Matrix) {
-
-	if !check(m) {
-		return
-	}
-
-	list := (*m.array)[m.idx] //matrix[idx]
-	count := m.cols - m.idx*2 //len(list) - idx*2
-	add := m.idx
-
-	for index := 0; index < count; index++ {
-		m.insert(list[index+add])
-	}
-
-	right(m)
+func Test_matrix(t *testing.T) {
+	fmt.Println(generateMatrix(1))
+	fmt.Println(generateMatrix(2))
+	fmt.Println(generateMatrix(3))
 }
 
-func right(m *Matrix) {
+func Test_spiralOrder(t *testing.T) {
+	fmt.Println(spiralOrder(
+		[][]int{
+			[]int{1, 2, 3},
+			[]int{4, 5, 6},
+			[]int{7, 8, 9},
+		}))
 
-	if !check(m) {
-		return
-	}
+	fmt.Println(spiralOrder(
+		[][]int{
+			[]int{2, 3, 4},
+			[]int{5, 6, 7},
+			[]int{8, 9, 10},
+			[]int{11, 12, 13},
+		}))
 
-	count := m.rows - (2*m.idx + 1)
-	col := m.cols - (m.idx + 1)
-	add := m.idx + 1
+	fmt.Println(spiralOrder(
+		[][]int{
+			[]int{6, 9, 7},
+		}))
 
-	for index := 0; index < count; index++ {
-		m.insert((*m.array)[index+add][col])
-	}
-
-	bottom(m)
-}
-
-func bottom(m *Matrix) {
-
-	if !check(m) {
-		return
-	}
-
-	//rows := len(matrix)
-	list := (*m.array)[m.rows-(m.idx+1)]
-	length := m.cols
-	count := length - (2*m.idx + 1)
-	add := m.idx + 1
-
-	for index := 0; index < count; index++ {
-		m.insert(list[length-1-index-add])
-	}
-
-	left(m)
-}
-
-func left(m *Matrix) {
-
-	if !check(m) {
-		return
-	}
-
-	length := m.rows //len(matrix)
-	count := length - (2 * (m.idx + 1))
-	col := m.idx
-	add := m.idx + 1
-
-	for index := 0; index < count; index++ {
-		m.insert((*m.array)[length-1-index-add][col])
-	}
-
-	m.idx++
-	top(m)
-}
-
-func check(m *Matrix) bool {
-	return m.id < (m.length)
+	fmt.Println(spiralOrder(
+		[][]int{
+			[]int{2},
+			[]int{5},
+			[]int{8},
+			[]int{11},
+		}))
 }
