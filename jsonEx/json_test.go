@@ -32,7 +32,7 @@ var movies = []Movie{
 		Actors: []string{"Steve McQueen", "Jacqueline Bisset"}},
 }
 
-func Test_main(t *testing.T) {
+func Test_json(t *testing.T) {
 	{
 		//!+Marshal
 		data, err := json.Marshal(movies)

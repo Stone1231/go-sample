@@ -1,6 +1,7 @@
 package leecode
 
 import (
+	. "github.com/sample/dsa"
 	"testing"
 )
 
