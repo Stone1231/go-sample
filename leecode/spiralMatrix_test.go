@@ -67,7 +67,7 @@ func spiralOrder(matrix [][]int) []int {
 	res := []int{}
 
 	s := 0
-	for left <= right { // && top <= bottom
+	for {
 		s = left
 		for s <= right {
 			res = append(res, matrix[top][s])
@@ -104,9 +104,9 @@ func spiralOrder(matrix [][]int) []int {
 			s--
 		}
 		left++
-		// if left > right {
-		// 	break
-		// }
+		if left > right {
+			break
+		}
 	}
 	return res
 }
