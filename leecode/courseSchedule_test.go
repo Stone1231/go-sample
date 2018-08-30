@@ -129,11 +129,11 @@ func canFinish(
 	fmt.Printf("degree: %v \n", degree)
 	fmt.Printf("bfs: %v \n", bfs)
 
-	res := len(bfs) == numCourses
+	check := len(bfs) == numCourses
 	fmt.Println("")
 	fmt.Println("len(bfs) == numCourses")
 
-	return res
+	return check
 }
 
 func Test_canFinish(t *testing.T) {
@@ -144,4 +144,59 @@ func Test_canFinish(t *testing.T) {
 
 	// println(canFinish(1, [][]int{}))
 	// println(canFinish(3, [][]int{{1, 0}, {0, 2}, {2, 1}}))
+}
+
+func findOrder(
+	numCourses int,
+	prerequisites [][]int) []int {
+
+	G := make([][]int, numCourses)
+	degree := make([]int, numCourses)
+
+	for _, item := range prerequisites {
+		i := item[0]
+		j := item[1]
+		G[i] = append(G[i],j)
+		degree[j]++
+	}
+
+	bfs := []int{}
+
+	for index := 0; index < numCourses; index++ {
+		if (degree[index] == 0){
+			bfs = append(bfs,index)	
+		}
+	}
+
+	//orders := []int{} unsuccess!
+
+	
+	// orders := make([]int, len(bfs))
+	// copy(orders, bfs)
+	orders := append([]int{}, bfs...)//同上
+
+	for i := 0; i < len(bfs); i++ {
+
+		for _, j := range G[bfs[i]] {
+			degree[j]--
+
+			if (degree[j] == 0) {
+				orders = append([]int{j}, orders...)
+				bfs = append(bfs, j)
+			}
+		}
+	}
+	check := len(bfs) == numCourses
+
+	if !check{
+		return []int{}	
+	}
+
+	return orders
+}
+
+func Test_findOrder(t *testing.T) {
+	//fmt.Println(findOrder(2, [][]int{{1, 0}}))	
+	fmt.Println(findOrder(4, [][]int{{1, 0}, {2, 0}, {3, 1}, {3, 2}}))
+	//fmt.Println(findOrder(5, [][]int{{1, 0}, {2, 0}, {3, 2}, {3, 0}, {4, 1}, {0, 4}}))
 }
