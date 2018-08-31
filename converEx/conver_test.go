@@ -1,4 +1,4 @@
-package converEx
+package converex
 
 import (
 	"fmt"
@@ -17,4 +17,9 @@ func Test_intToStr(t *testing.T) {
 	n := 11
 	var s string = "it is " + strconv.Itoa(n)
 	fmt.Println(s)
+}
+
+func Test_arrayToString(t *testing.T) {
+    a := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+    fmt.Println(ArrayToString(a, ",")) //1,2,3,4,5,6,7,8,9
 }

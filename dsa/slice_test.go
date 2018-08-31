@@ -13,7 +13,7 @@ func Test_sliceRange(t *testing.T) {
 
 	fmt.Println(data[6:8]) //[6 7]
 	fmt.Println(data[5:])  //[5 6 7 8 9]
-	fmt.Println(data[:3])  //[0 1 2]
+	fmt.Println(data[:5])  //[0 1 2 3 4]
 	fmt.Println(data[:0])  //[]
 	fmt.Println(data[:])   //[0 1 2 3 4 5 6 7 8 9]
 }
