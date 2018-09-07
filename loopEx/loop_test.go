@@ -74,7 +74,7 @@ L1:
 	for x := 0; x < 3; x++ {
 	L2:
 		for y := 0; y < 5; y++ {
-			if y > 2 {
+			if y == 2 {
 				continue L2
 			}
 			if x > 1 {
