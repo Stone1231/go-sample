@@ -1,5 +1,5 @@
 //https://leetcode.com/problems/house-robber-ii/description/
-package leecode
+package leetcode
 
 import (
 	"fmt"

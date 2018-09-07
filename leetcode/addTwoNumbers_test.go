@@ -1,4 +1,4 @@
-package leecode
+package leetcode
 
 import (
 	. "github.com/sample/dsa"
