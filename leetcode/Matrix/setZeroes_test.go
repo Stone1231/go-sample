@@ -1,10 +1,10 @@
 package leetcode
 
-import (	
+import (
+	"fmt"
 	"github.com/sample/dsa"
 	"testing"
 	"time"
-	"fmt"
 )
 
 func setZeroes(matrix [][]int) {
@@ -88,13 +88,13 @@ func Test_setZeroes(t *testing.T) {
 	// 		[]int{1, 1, 1},
 	// 	})
 
-	aa := dsa.GetRandArray2D(5000, 5000, 10)
+	aa := dsa.GetRandSlice2D(5000, 5000, 10)
 	t1 := time.Now()
 	setZeroes(aa)
 	elapsed := time.Since(t1)
 	fmt.Println("time1: ", elapsed)
 
-	aa = dsa.GetRandArray2D(5000, 5000, 10)
+	aa = dsa.GetRandSlice2D(5000, 5000, 10)
 	t1 = time.Now()
 	setZeroesHis(aa)
 	elapsed = time.Since(t1)

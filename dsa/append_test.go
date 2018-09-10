@@ -62,3 +62,46 @@ func Test_insertAtIndex(t *testing.T) {
 
 	fmt.Println(s)
 }
+
+func Test_appendSlice(t *testing.T) {
+	s1 := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+	s2 := append(s1[:0:0], s1...)
+	s3 := append([]int{}, s1...)
+
+	s1[0] = 10
+	s2[2] = -2
+	s3[3] = -3
+
+	//都不會互相影響
+	fmt.Printf("s1: %v \n",s1)
+	fmt.Printf("s2: %v \n",s2)
+	fmt.Printf("s3: %v \n",s3)
+}
+
+func Test_appendSlice2(t *testing.T) {
+	s1 := []int{1, 2, 3, 4}
+	s2 := []int{5, 6, 7, 8, 9}
+	s1 = append(s1, s2...)
+
+	s1[5] = 60
+	s2[2] = 70
+
+	//都不會互相影響
+	fmt.Printf("s1: %v \n",s1)
+	fmt.Printf("s2: %v \n",s2)
+}
+
+func Test_appendSlice2D(t *testing.T) {
+	ss1 := [][]int{{1, 1, 1, 1},{2, 2, 2, 2},{3, 3, 3, 3}}
+	//2D會互相影響
+	//ss2 := append(ss1[:0:0], ss1...)
+
+	//特別處理才不會互相干擾
+	ss2 := CopySlice2D(ss1)
+
+	ss1[0][0] = 10
+	ss2[1][1] = 20
+
+	fmt.Printf("s1: %v \n",ss1)
+	fmt.Printf("s2: %v \n",ss2)
+}

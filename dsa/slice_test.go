@@ -193,3 +193,11 @@ func Test_memory2Slice(t *testing.T) {
 	fmt.Print("s1:")
 	fmt.Println(s1)
 }
+
+func Test_randomSlice(t *testing.T) {
+	fmt.Println(GetRandSlice(100, 8))
+}
+
+func Test_randomSlice2D(t *testing.T) {
+	fmt.Println(GetRandSlice2D(50, 100, 8))
+}
