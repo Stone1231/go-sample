@@ -18,11 +18,11 @@ func coinChange(coins []int, amount int) int {
 	for i := 0; i < length; i++ {
 		coin := coins[i]
 		for j := coin; j <= amount; j++ {
-			//記錄加總到j這個數字的最少次數
+			//記錄加總到j這個數字的次數
 			//目前數字j
 			//上個數字為j-coin
 			count := dp[j-coin] + 1
-			if count < dp[j] {
+			if count < dp[j] { //最少次數
 				dp[j] = count
 
 				// if j%coin == 0 {

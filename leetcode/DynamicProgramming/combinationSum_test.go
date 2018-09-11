@@ -27,9 +27,9 @@ func combinationSum4(nums []int, target int) int {
 
 func Test_combinationSum4(t *testing.T) {
 
-	//fmt.Println(combinationSum4([]int{1, 2, 3}, 4))
+	fmt.Println(combinationSum4([]int{1, 2, 3}, 4))
 	//fmt.Println(combinationSum4([]int{1, 50}, 200))
-	fmt.Println(combinationSum4([]int{1, 2, 3}, 32))
+	//fmt.Println(combinationSum4([]int{1, 2, 3}, 32))
 }
 
 //只能取得Group組合數
@@ -40,9 +40,19 @@ func combinationSum4Group(nums []int, target int) int {
 
 	for i := 0; i < length; i++ {
 		num := nums[i]
+
 		for j := num; j <= target; j++ {
 			dp[j] += dp[j-num]
+			fmt.Printf("dp[%v] += dp[%v-%v] = %v \n", j, j, num, dp[j])
 		}
+
+		//同上
+		// for j := 0; j <= target; j++ {
+		// 	if j+num <= target {
+		// 		dp[j+num] += dp[j]
+		// 		fmt.Printf("dp[%v+%v] += dp[%v] = %v \n", j, num, j, dp[j+num])
+		// 	}
+		// }
 	}
 
 	return dp[target]
@@ -50,8 +60,8 @@ func combinationSum4Group(nums []int, target int) int {
 
 func Test_combinationSum4Group(t *testing.T) {
 	fmt.Println(combinationSum4Group([]int{1, 2, 3}, 4))
-	fmt.Println(combinationSum4Group([]int{1, 50}, 200))
-	fmt.Println(combinationSum4Group([]int{1, 2, 3}, 32))	
+	// fmt.Println(combinationSum4Group([]int{1, 50}, 200))
+	// fmt.Println(combinationSum4Group([]int{1, 2, 3}, 32))	
 }
 
 func combinationSum4Job(dp *[]int, current int, nums *[]int, target int) {
