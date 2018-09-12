@@ -3,6 +3,7 @@ package operatorsEx
 import (
 	"fmt"
 	"testing"
+	"math"
 )
 
 func Test_operators(t *testing.T) {
@@ -30,6 +31,16 @@ func Test_operators(t *testing.T) {
 	// 3 & 6 = 00000010 = 2
 	fmt.Println(3 & 6)
 
+	//Get Last Set Bit	
+	//1  =                                    1
+	//-1 =     11111111111111111111111111111111
+	//1 & -1 =                                1
+	fmt.Println(1 & -1)
+	//2  =                                   10
+	//-2 =     11111111111111111111111111111110
+	//2 & -2 =                               10
+	fmt.Println(2 & -2)
+
 	// Use bit clear AND NOT &^ to get the bits that are in 3 AND NOT 6 (order matters)
 	// 3      = 00000011
 	// 6      = 00000110
@@ -43,7 +54,18 @@ func Test_operators(t *testing.T) {
 
 	fmt.Println(^5)
 	// 5  00000101
-	//-6  11111010 (one's complement of 5, the value was -6)	
+	//-6  11111010 (one's complement of 5, the value was -6)
+}
+
+//二補數（2's complement）
+func Test_2complement(t *testing.T) {
+
+	num := 2
+
+	//-num
+	negNum := math.MaxUint32 + num + 1
+	fmt.Printf(" num = %b \n", num)
+	fmt.Printf("-num = %b \n", negNum)
 }
 
 func Test_operatorsRem(t *testing.T) {
@@ -51,16 +73,37 @@ func Test_operatorsRem(t *testing.T) {
 	//指數運算 只能用2的次方
 	//ex 除以2的5次方32
 	fmt.Println(75 % 32)
-	fmt.Println(75 & 31)//最大餘數31 &
-	fmt.Println(75 - 75 >> 5 << 5) //位元的左右移,2的5次方
+	fmt.Println(75 & 31)       //最大餘數31 &
+	fmt.Println(75 - 75>>5<<5) //位元的左右移,2的5次方
 }
 
 func Test_operatorsQuotient(t *testing.T) {
 	//75除32的商
 	//指數運算 只能用2的次方
 	//ex 除以2的5次方32
-	fmt.Println(75 / 32)
 	fmt.Println(75 >> 5) //位元的左右移,2的5次方
+	fmt.Println(75 / 32) //同上	
+}
 
-	fmt.Println(3 ^ 0)
+func Test_operatorsXOR(t *testing.T) {
+
+	fmt.Println(^5)    //-6
+	fmt.Println(5 ^ 0) // 5
+
+	ans := 0
+	//                             1, 2, 3, 1, 3, 2互相抵消
+	for _, value := range []int{7, 1, 2, 3, 1, 3, 2} {
+		ans ^= value
+		fmt.Printf("%v->", ans)
+	}
+
+}
+
+//取右邊第一個1
+func Test_getLastSetBit(t *testing.T) {
+	for i := 0; i < 100; i++ {
+		
+		fmt.Printf("%v:%v", i, i & -i)
+		fmt.Printf(" (%b & %b) \n", i, math.MaxUint32-i + 1)//才能顯示實際的二進位數
+	}
 }
