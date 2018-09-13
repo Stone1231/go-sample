@@ -107,3 +107,10 @@ func Test_getLastSetBit(t *testing.T) {
 		fmt.Printf(" (%b & %b) \n", i, math.MaxUint32-i + 1)//才能顯示實際的二進位數
 	}
 }
+
+func Test_bitNegative(t *testing.T) {
+	fmt.Printf("%b\n", -7) //-111
+	fmt.Printf("\n%b\n", 3)	//                                               11
+	fmt.Printf("%b\n", math.MaxUint32-7 + 1) //11111111111111111111111111111001
+	fmt.Printf("%b\n", 3 & -7) //                                             1
+}
