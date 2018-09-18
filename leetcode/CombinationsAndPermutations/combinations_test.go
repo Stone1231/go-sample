@@ -77,8 +77,8 @@ func combinePoor(n int, k int) [][]int {
 func Test_combinePoor(t *testing.T) {
 
 	fmt.Println(combinePoor(4, 2))
-	// fmt.Println(combinePoor(1, 1))
-	// fmt.Println(combinePoor(2, 1))
-	// fmt.Println(combinePoor(3, 3))
+	fmt.Println(combinePoor(1, 1))
+	fmt.Println(combinePoor(2, 1))
+	fmt.Println(combinePoor(3, 3))
 }
 

@@ -141,4 +141,12 @@ func coinChangeMy(coins []int, amount int) int {
 	return r
 }
 
+func Test_coinChangeMy(t *testing.T) {
 
+	fmt.Println(coinChangeMy([]int{1, 2, 5}, 11))
+	//fmt.Println(coinChangeMy([]int{2}, 3))
+	//fmt.Println(coinChangeMy([]int{186, 419, 83, 408}, 6249))
+	//fmt.Println(coinChangeMy([]int{2, 4, 5}, 39))
+	//fmt.Println(coinChangeMy([]int{288,160,10,249,40,77,314,429}, 6249))
+
+}
