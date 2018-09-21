@@ -1,11 +1,9 @@
 package leetcode
 
 import (
-	. "github.com/sample/dsa"
+	. "sample/dsa"
 	"testing"
 )
-
-
 
 // func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 // 	sum := sumList(l1, 1)
@@ -86,13 +84,13 @@ func sumList(sum *ListNode, lists []*ListNode) {
 }
 
 func Test_addTwoNumbers(t *testing.T) {
-	l1 := GetListNode(&[]int{2,4,3})
-	l2 := GetListNode(&[]int{5,6,4})
+	l1 := GetListNode(&[]int{2, 4, 3})
+	l2 := GetListNode(&[]int{5, 6, 4})
 	list := addTwoNumbers(l1, l2)
 	PrintListNode(list)
 
 	PrintListNode(
 		addTwoNumbers(
-			GetListNode(&[]int{5}), 
+			GetListNode(&[]int{5}),
 			GetListNode(&[]int{5})))
 }

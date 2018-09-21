@@ -3,7 +3,7 @@ package leetcode
 import (
 	"testing"
 
-	. "github.com/sample/dsa"
+	. "sample/dsa"
 )
 
 func sortNode(root *TreeNode, node *TreeNode) {
@@ -90,7 +90,7 @@ func flattenMy(root *TreeNode) {
 	if root.Right != nil {
 		flattenMy(root.Right)
 	}
-	
+
 	left := root.Left
 	if left != nil {
 		right := root.Right

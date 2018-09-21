@@ -1,7 +1,7 @@
 package leetcode
 
 import (
-	. "github.com/sample/dsa"
+	. "sample/dsa"
 	"testing"
 )
 
@@ -21,8 +21,8 @@ func deleteDuplicates(head *ListNode) *ListNode {
 
 			removeParent := m[head.Val]
 			if removeParent != nil {
-				
-				if removeParent.Next == parent{
+
+				if removeParent.Next == parent {
 					parent = removeParent
 				}
 

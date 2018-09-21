@@ -2,7 +2,7 @@ package leetcode
 
 import (
 	"fmt"
-	. "github.com/sample/dsa"
+	. "sample/dsa"
 	"testing"
 )
 

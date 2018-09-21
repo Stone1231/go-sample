@@ -2,23 +2,23 @@ package leetcode
 
 import (
 	"fmt"
-	. "github.com/sample/converex"
+	. "sample/converex"
 	"sort"
-	"testing"
 	"strconv"
+	"testing"
 )
 
 func largestNumber(nums []int) string {
 
 	sort.SliceStable(
-		nums, 
-		func(i, j int) bool { 
-			ijStr := fmt.Sprintf("%v%v", nums[i],nums[j])
-			jiStr := fmt.Sprintf("%v%v", nums[j],nums[i])
+		nums,
+		func(i, j int) bool {
+			ijStr := fmt.Sprintf("%v%v", nums[i], nums[j])
+			jiStr := fmt.Sprintf("%v%v", nums[j], nums[i])
 			return ijStr > jiStr
 		})
 
-	if len(nums) > 0 && nums[0] == 0{
+	if len(nums) > 0 && nums[0] == 0 {
 		return "0"
 	}
 
@@ -39,7 +39,7 @@ func customMergeSort(unsorted []int) []int {
 		return unsorted
 	}
 
-	middle := len(unsorted) / 2 
+	middle := len(unsorted) / 2
 	left := unsorted[:middle]
 	right := unsorted[middle:]
 
@@ -98,5 +98,3 @@ func largestNumberMyError(nums []int) string {
 func Test_largestNumberMyError(t *testing.T) {
 	fmt.Println(largestNumberMyError([]int{3, 30, 34, 5, 9}))
 }
-
-
