@@ -23,15 +23,15 @@ func Test_updateSliceToArray(t *testing.T) {
 	s := data[2:4]
 	s[0] += 100
 	s[1] += 200
-	fmt.Println(s)
-	fmt.Println(data)
+	fmt.Println(s)    //[102 203]
+	fmt.Println(data) //[0 1 102 203 4 5]
 }
 
 func Test_sliceInit(t *testing.T) {
-	s1 := []int{0, 1, 2, 3, 8: 100}
+	s1 := []int{0, 1, 2, 3, 5: 15, 8: 108}
 	fmt.Println(s1, len(s1), cap(s1))
-	// 0 1 2 3 4 5 6 7 8
-	//[0 1 2 3 0 0 0 0 100] 9 9
+	// 0 1 2 3 4  5 6 7   8
+	//[0 1 2 3 0 15 0 0 108] 9 9
 
 	s2 := make([]int, 6, 8)
 	fmt.Println(s2, len(s2), cap(s2))
@@ -48,6 +48,7 @@ func Test_sliceItemPtr(t *testing.T) {
 	p := &s[2] // *int
 	*p += 100
 	fmt.Println(s)
+	//[0 1 102 3]
 }
 
 func Test_slice2D(t *testing.T) {
@@ -85,12 +86,15 @@ func Test_reSlice(t *testing.T) {
 func Test_sliceCopy(t *testing.T) {
 	s0 := [...]int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 	s1 := s0[8:] // [8 9] index8以後
-	s2 := s0[:5] // [0 1 2 3 4] index不超過5
+	s2 := s0[:5] // [0 1 2 3 4] index=0含本身之後5個長度
 
 	copy(s2, s1) // dst:s2, src:s   from s to s2
 
 	fmt.Println(s0)
 	fmt.Println(s2)
+	//s0 [8 9]
+	//s1 [8 9 2 3 4 5 6 7 8 9]
+	//s2 [8 9 2 3 4]
 
 	s1[1] = -9
 	fmt.Println(s0)

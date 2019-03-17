@@ -8,15 +8,16 @@ import (
 
 func Test_buffered(t *testing.T) {
 
-	chJob := func(title string, ch chan int) {
+	chJob := func(title string, ch chan int, count int) {
 
 		s := ""
 		go func() {
-			for i := 0; i < 10; i++ {
+			for i := 0; i < count; i++ {
 				ch <- i
 				s += "."
 			}
 			close(ch)
+			s += " close "
 		}()
 
 		for i := range ch {
@@ -26,9 +27,11 @@ func Test_buffered(t *testing.T) {
 		fmt.Println(title + s)
 	}
 
-	go chJob("  : ", make(chan int))     //unbuffered
-	go chJob(" 3: ", make(chan int, 3))  //buffered
-	go chJob("10: ", make(chan int, 10)) //buffered
+	go chJob("  : ", make(chan int), 10)     //unbuffered
+	go chJob(" 0: ", make(chan int, 0), 10)  //unbuffered
+	go chJob(" 1: ", make(chan int, 1), 10)  //buffered
+	go chJob(" 3: ", make(chan int, 3), 10)  //buffered
+	go chJob("10: ", make(chan int, 10), 10) //buffered
 
 	<-time.After(time.Second * 1)
 }
