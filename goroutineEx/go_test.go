@@ -81,7 +81,7 @@ func Test_goexitWaitGroup(t *testing.T) {
 	go func() {
 		defer wg.Done()
 		defer println("A1.defer")
-		defer println("A2.defer") //比A1先執行
+		defer println("A2.defer") //比A1先執行, Stack
 		func() {
 			defer println("B.defer")
 			runtime.Goexit() // 终止当前 goroutine
@@ -264,6 +264,16 @@ func Test_closeFunsChan(t *testing.T) {
 		fmt.Printf("done-2\n")
 	}()
 
+	go func() {
+		<-done
+		fmt.Printf("done-3\n")
+	}()
+
+	go func() {
+		<-done
+		fmt.Printf("done-4\n")
+	}()
+
 loop:
 	for {
 		select {
@@ -342,7 +352,10 @@ func Test_createConsumer(t *testing.T) {
 	data <- 1
 	data <- 2
 	close(data)
-	select {} //沒有可用channel, 阻塞main goroutine
+
+	//沒有可用channel, 阻塞main goroutine
+	//讓main函數不退出，讓它在後台一直執行
+	select {}
 }
 
 ///channel 實現號誌(Semaphore)

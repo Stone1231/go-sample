@@ -27,9 +27,10 @@ func (self *User) UpdateNamePointer(name string) {
 
 type Manager struct {
 	User
+	title string
 }
 
 //override
 func (self *Manager) String() string {
-	return fmt.Sprintf("manager %d, %s", self.id, self.name)
+	return fmt.Sprintf("manager %d, %s, %s", self.id, self.name, self.title)
 }

@@ -21,7 +21,7 @@ func twoSum(nums []int, target int) []int {
 	return make([]int, 2)
 }
 
-func brute_force(nums []int, target int) []int {
+func bruteForce(nums []int, target int) []int {
 
 	length := len(nums)
 
@@ -48,4 +48,5 @@ func brute_force(nums []int, target int) []int {
 
 func Test_twoSum(t *testing.T) {
 	fmt.Println(twoSum([]int{1, 2, 3, 4}, 5))
+	fmt.Println(twoSum([]int{1, 2, 3, 4}, 6))
 }

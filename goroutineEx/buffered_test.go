@@ -40,7 +40,7 @@ func Test_unbuffered(t *testing.T) {
 	data := make(chan int)
 
 	go func() {
-		for i := range data { //佇列接收通知直到close
+		for i := range data { //佇列接收通知一直到close
 			fmt.Println(i)
 		}
 

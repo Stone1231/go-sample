@@ -75,3 +75,22 @@ func Test_byteRuneStr(t *testing.T) {
 	}
 	fmt.Println()
 }
+
+func Test_byteRuneStr2(t *testing.T) {
+	s := "fisrt"
+	fmt.Println([]rune(s))
+	fmt.Println([]byte(s))
+
+	s = "第一"
+	fmt.Println([]rune(s))
+	fmt.Println([]byte(s))
+
+	s = "golangcaff"
+	fmt.Println(s[:3])
+
+	s = "截取中文"
+	fmt.Println(s[:2]) //?
+	res := []rune(s)[:2]
+	fmt.Println(res)
+	fmt.Println(string(res))
+}

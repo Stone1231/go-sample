@@ -56,7 +56,7 @@ func Test_emptyInterface(t *testing.T) {
 }
 
 func Test_inheriance(t *testing.T) {
-	m := Manager{User{1, "Tom"}}
+	m := Manager{User{1, "Tom"}, "pm"}
 	fmt.Println(m.String())
 }
 

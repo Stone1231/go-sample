@@ -28,7 +28,11 @@ func Test_appendIndexAddress(t *testing.T) {
 func Test_appendCapOverflow(t *testing.T) {
 	data := [...]int{0, 1, 2, 3, 4, 10: 0}
 	s := data[:2:3]
-	s = append(s, 100, 200) //超過s.cap 重新分配
+	s = append(s, 200)
+	fmt.Println(s, data)
+	fmt.Println(&s[0], &data[0]) //一樣
+
+	s = append(s, 300, 400) //超過s.cap 重新分配
 	fmt.Println(s, data)
 	fmt.Println(&s[0], &data[0]) //不一樣
 }
@@ -47,13 +51,13 @@ func Test_appendCap(t *testing.T) {
 }
 
 func Test_insertFirst(t *testing.T) {
-	s := []int{2,3,4,5}
+	s := []int{2, 3, 4, 5}
 	s = append([]int{1}, s...)
 	fmt.Println(s)
 }
 
 func Test_insertAtIndex(t *testing.T) {
-	s := []int{1,2,4,5}
+	s := []int{1, 2, 4, 5}
 	i := 2
 	val := 3
 	s = append(s, 0)
@@ -73,9 +77,9 @@ func Test_appendSlice(t *testing.T) {
 	s3[3] = -3
 
 	//都不會互相影響
-	fmt.Printf("s1: %v \n",s1)
-	fmt.Printf("s2: %v \n",s2)
-	fmt.Printf("s3: %v \n",s3)
+	fmt.Printf("s1: %v \n", s1)
+	fmt.Printf("s2: %v \n", s2)
+	fmt.Printf("s3: %v \n", s3)
 }
 
 func Test_appendSlice2(t *testing.T) {
@@ -87,12 +91,12 @@ func Test_appendSlice2(t *testing.T) {
 	s2[2] = 70
 
 	//都不會互相影響
-	fmt.Printf("s1: %v \n",s1)
-	fmt.Printf("s2: %v \n",s2)
+	fmt.Printf("s1: %v \n", s1)
+	fmt.Printf("s2: %v \n", s2)
 }
 
 func Test_appendSlice2D(t *testing.T) {
-	ss1 := [][]int{{1, 1, 1, 1},{2, 2, 2, 2},{3, 3, 3, 3}}
+	ss1 := [][]int{{1, 1, 1, 1}, {2, 2, 2, 2}, {3, 3, 3, 3}}
 	//2D會互相影響
 	//ss2 := append(ss1[:0:0], ss1...)
 
@@ -102,6 +106,6 @@ func Test_appendSlice2D(t *testing.T) {
 	ss1[0][0] = 10
 	ss2[1][1] = 20
 
-	fmt.Printf("s1: %v \n",ss1)
-	fmt.Printf("s2: %v \n",ss2)
+	fmt.Printf("s1: %v \n", ss1)
+	fmt.Printf("s2: %v \n", ss2)
 }
