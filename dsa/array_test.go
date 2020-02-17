@@ -60,4 +60,16 @@ func Test_ArrayLen(t *testing.T) {
 	println(len(a), cap(a)) // 2, 2
 }
 
-
+func Test_arrayPtr(t *testing.T) {
+	a := [4]int{}
+	a[0] = 2
+	fmt.Printf("a: %p\n", &a[0])
+	b := a
+	fmt.Printf("b: %p\n", &b[0])
+	c := &a
+	fmt.Printf("c: %p\n", c)
+	fmt.Printf("%v \n", c[0])
+	for i := range c {
+		fmt.Printf("%v \n", c[i])
+	}
+}

@@ -6,12 +6,16 @@ var x = []int{1, 2, 3}
 
 func Test_simple(t *testing.T) {
 
-	i := 2
+	i := 1
 	switch i {
 	case x[1]:
 		println("x[1]")
-	case 1, 3:
+	case
+		1,
+		3:
 		println("1, 3")
+	case 2, 4:
+		println("2, 4")
 	default:
 	}
 	println("end")
