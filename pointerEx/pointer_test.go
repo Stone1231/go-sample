@@ -24,12 +24,15 @@ func Test_zerovalPointer(t *testing.T) {
 }
 
 func Test_structPointer(t *testing.T) {
-	type data struct{ a int }
-	var d = data{1234}
+	type data struct {
+		a int
+		b string
+	}
+	var d = data{1234, "abcd"}
 	var p *data
 	p = &d
 
-	fmt.Printf("%p, %v, %v\n", p, p.a, d.a)
+	fmt.Printf("%p, %v, %v %v, %v\n", p, p.a, d.a, p.b, d.b)
 }
 
 func Test_refScope(t *testing.T) {
