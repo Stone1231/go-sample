@@ -29,6 +29,12 @@ func Test_intToStr(t *testing.T) {
 	fmt.Println(s)
 }
 
+func Test_int64ToStr(t *testing.T) {
+	var i int64 = 2
+	var s string = fmt.Sprintf("%v", i)
+	fmt.Println(s)
+}
+
 func Test_arrayToString(t *testing.T) {
 	a := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	fmt.Println(ArrayToString(a, ",")) //1,2,3,4,5,6,7,8,9

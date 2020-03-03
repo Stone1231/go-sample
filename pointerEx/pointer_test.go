@@ -78,3 +78,44 @@ func Test_uintptrOffset(t *testing.T) {
 
 	fmt.Printf("%#v\n", d)
 }
+
+func Test_MapLoop(t *testing.T) {
+	m := map[int]struct {
+		name string
+		age  int
+	}{
+		1: {"user1", 10},
+		2: {"user2", 20},
+		3: {"user3", 30},
+	}
+	m2 := map[string]*struct {
+		name string
+		age  int
+	}{}
+
+	for _, item := range m {
+		m2[item.name] = &item
+	}
+
+	for _, item := range m2 {
+		fmt.Println(item)
+	}
+	// &{user3 30}
+	// &{user3 30}
+	// &{user3 30}
+}
+
+func Test_ArrayLoop(t *testing.T) {
+	m := [...]struct {
+		name string
+		age  int
+	}{
+		{"user1", 10},
+		{"user2", 20},
+		{"user3", 30},
+	}
+	for _, item := range m {
+		fmt.Println(item) //複製品
+		fmt.Printf("%p \n", &item)
+	}
+}

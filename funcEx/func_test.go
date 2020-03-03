@@ -92,3 +92,14 @@ func Test_defer(t *testing.T) {
 	y += 100
 	println("x =", x, "y =", y)
 }
+
+func Test_defer2(t *testing.T) {
+	fn := func(s1, s2 string) string {
+		fmt.Println(s1 + s2)
+		return s1 + s2
+	}
+
+	defer fn("7", fn("8", "9"))
+	defer fn("4", fn("5", "6"))
+	defer fn("1", fn("2", "3"))
+}
