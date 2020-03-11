@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_Str(t *testing.T) {
+func Test_str(t *testing.T) {
 	s := "abc"
 
 	for i, n := 0, len(s); i < n; i++ {
@@ -41,12 +41,24 @@ func Test_array(t *testing.T) {
 	a := [3]int{0, 1, 2}
 	for i, v := range a { // index value  從複製品取出
 		if i == 0 {
-			a[1], a[2] = 999, 999
-			fmt.Println(a) //[0, 999, 999]
+			a[1], a[2] = 99, 999
+			fmt.Println(a) //[0, 99, 999]
 		}
 		a[i] = v + 100 //複製品的value
 	}
 	fmt.Println(a) //[100, 101, 102]
+}
+func Test_slice(t *testing.T) {
+
+	s := []int{0, 1, 2}
+	for i, v := range s {
+		if i == 0 {
+			s[1], s[2] = 99, 999
+			fmt.Println(s) //[0, 99, 999]
+		}
+		s[i] = v + 100 //會隨著s變化的value
+	}
+	fmt.Println(s) //[100 199 1099]
 }
 
 func Test_goto(t *testing.T) {

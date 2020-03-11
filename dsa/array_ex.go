@@ -6,7 +6,7 @@ import (
 
 //copy會影響效能
 func arrayVal(a [4]int, i int, v int) {
-	//fmt.Printf("%p\n", &a)
+	fmt.Printf("val %p\n", &a)
 	a[i] = v
 }
 
@@ -21,5 +21,3 @@ func printArrayItemAddress(a *[4]int) {
 	}
 	fmt.Println()
 }
-
-

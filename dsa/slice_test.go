@@ -47,6 +47,10 @@ func Test_sliceItemPtr(t *testing.T) {
 
 	p := &s[2] // *int
 	*p += 100
+
+	v := s[2]
+	v += 1000
+
 	fmt.Println(s)
 	//[0 1 102 3]
 }
@@ -204,4 +208,23 @@ func Test_randomSlice(t *testing.T) {
 
 func Test_randomSlice2D(t *testing.T) {
 	fmt.Println(GetRandSlice2D(50, 100, 8))
+}
+
+func Test_sliceAddress(t *testing.T) {
+
+	s := make([]int, 4)
+	s[0] = 2
+	fmt.Printf("s: %p\n", &s[0])
+	b := s
+	fmt.Printf("b: %p\n", &b[0])
+
+	// 不需要
+	// c := &s
+	// fmt.Printf("c: %p\n", c)
+	// fmt.Printf("&(*c)[0] %p\n", &(*c)[0])
+
+	// fmt.Printf("%v \n", (*c)[0])
+	// for i := range *c {
+	// 	fmt.Printf("%v \n", (*c)[i])
+	// }
 }

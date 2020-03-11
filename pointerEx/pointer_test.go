@@ -7,6 +7,19 @@ import (
 )
 
 func Test_zerovalPointer(t *testing.T) {
+	zeroptr := func(iptr *int) {
+		fmt.Println("*iptr:", *iptr) // = i
+
+		*iptr = 0
+
+		fmt.Println("iptr:", iptr) // = &i
+	}
+	zeroval := func(ival int) {
+		ival = 0
+
+		fmt.Println("&ival:", &ival)
+	}
+
 	i := 1
 	fmt.Println("initial:", i)
 
@@ -20,7 +33,6 @@ func Test_zerovalPointer(t *testing.T) {
 
 	// Pointers can be printed too.
 	fmt.Println("pointer:", &i)
-
 }
 
 func Test_structPointer(t *testing.T) {
@@ -79,7 +91,7 @@ func Test_uintptrOffset(t *testing.T) {
 	fmt.Printf("%#v\n", d)
 }
 
-func Test_MapLoop(t *testing.T) {
+func Test_mapLoop(t *testing.T) {
 	m := map[int]struct {
 		name string
 		age  int
@@ -105,7 +117,7 @@ func Test_MapLoop(t *testing.T) {
 	// &{user3 30}
 }
 
-func Test_ArrayLoop(t *testing.T) {
+func Test_arrayLoop(t *testing.T) {
 	m := [...]struct {
 		name string
 		age  int
@@ -114,8 +126,41 @@ func Test_ArrayLoop(t *testing.T) {
 		{"user2", 20},
 		{"user3", 30},
 	}
-	for _, item := range m {
-		fmt.Println(item) //複製品
+	for i, item := range m {
+		fmt.Println(item) //item 只是一個指標指向不同的成員
 		fmt.Printf("%p \n", &item)
+
+		m[i].name = fmt.Sprintf("ptr_%v", i)
+		item.name = fmt.Sprintf("val_%v", i) //無效
+
+		v := m[i]
+		v.name = fmt.Sprintf("val2_%v", i) //無效
+		p := &m[i]
+		p.name = fmt.Sprintf("ptr2_%v", i)
 	}
+	fmt.Println(m)
+}
+
+func Test_sliceLoop(t *testing.T) {
+	m := []struct {
+		name string
+		age  int
+	}{
+		{"user1", 10},
+		{"user2", 20},
+		{"user3", 30},
+	}
+	for i, item := range m {
+		fmt.Println(item) //同上, item 只是一個指標指向不同的成員
+		fmt.Printf("%p \n", &item)
+
+		m[i].name = fmt.Sprintf("ptr_%v", i)
+		item.name = fmt.Sprintf("val_%v", i) //無效
+
+		v := m[i]
+		v.name = fmt.Sprintf("val2_%v", i) //無效
+		p := &m[i]
+		p.name = fmt.Sprintf("ptr2_%v", i)
+	}
+	fmt.Println(m)
 }

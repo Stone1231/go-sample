@@ -62,6 +62,7 @@ func Test_ArrayLen(t *testing.T) {
 
 func Test_arrayPtr(t *testing.T) {
 	a := [4]int{}
+	//a := make([]int, 4)
 	a[0] = 2
 	fmt.Printf("a: %p\n", &a[0])
 	b := a
