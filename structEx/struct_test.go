@@ -7,29 +7,6 @@ import (
 	"unsafe"
 )
 
-// func main() {
-
-// nodeData()
-
-// newInit()
-
-// attrStruct()
-
-// mapKeyUseStruct()
-
-// attrOtherName()
-
-// attrStruct2()
-
-// attrStruct3()
-
-// attrStruct4()
-
-// pointerStruct()
-
-// 	newInit2()
-// }
-
 type Node struct {
 	_    int
 	id   int
@@ -200,9 +177,13 @@ func Test_checkNull(t *testing.T) {
 	}
 
 	user := User{}
-
 	if (user == User{}) {
-		fmt.Println("is zero value")
+		fmt.Println("user is zero value")
+	}
+
+	var user2 User
+	if (user2 == User{}) {
+		fmt.Println("user2 is zero value")
 	}
 }
 
