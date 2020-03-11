@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_Map1(t *testing.T) {
+func Test_mapSimple(t *testing.T) {
 	m := map[int]struct {
 		name string
 		age  int
@@ -15,7 +15,7 @@ func Test_Map1(t *testing.T) {
 	}
 	println(m[1].name)
 }
-func Test_Map2(t *testing.T) {
+func Test_mapContains(t *testing.T) {
 	//m := make(map[string]int, 1000)
 
 	m := map[string]int{
@@ -34,12 +34,12 @@ func Test_Map2(t *testing.T) {
 		println(k, v)
 	}
 }
-func Test_Map3(t *testing.T) {
+func Test_mapAssign(t *testing.T) {
 	type user struct{ name string }
 	m := map[int]user{
 		1: {"user1"},
 	}
-	//m[1].name = "Tom" // Error: cannot assign to m[1].name, map not addressable
+	// m[1].name = "Tom" // Error: cannot assign to m[1].name, map not addressable
 
 	u := m[1]
 	u.name = "Tom"
@@ -53,7 +53,7 @@ func Test_Map3(t *testing.T) {
 }
 
 //泆代時可刪除鍵值 但期間有新增操作會有意外
-func Test_Map4(t *testing.T) {
+func Test_mapLoopDelete(t *testing.T) {
 	for i := 0; i < 5; i++ {
 		m := map[int]string{
 			0: "a", 1: "a", 2: "a", 3: "a", 4: "a",

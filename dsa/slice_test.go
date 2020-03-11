@@ -5,6 +5,16 @@ import (
 	"testing"
 )
 
+func Test_simple1(t *testing.T) {
+	a := []int{0, 0, 0}
+	a[1] = 10
+	b := make([]int, 3) //makeslice
+	b[1] = 10
+	//c := new([]int)
+	//c[1] = 10  Error: invalid operation: c[1] (index of type *[]int)
+	fmt.Println(a[1], b[1])
+}
+
 func Test_sliceRange(t *testing.T) {
 	data := [...]int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 	s := data[1:4:5] // [low : high : max]
@@ -71,6 +81,16 @@ func Test_slice2D(t *testing.T) {
 	s[2].x = 20
 	fmt.Println(d)
 	fmt.Printf("%p, %p\n", &d, &d[0])
+}
+
+func Test_slice2DInit(t *testing.T) {
+	n := 3
+	m := 2
+	res := make([][]int, n)
+	for i := range res {
+		res[i] = make([]int, m)
+	}
+	fmt.Println(res)
 }
 
 func Test_reSlice(t *testing.T) {

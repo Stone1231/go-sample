@@ -164,3 +164,30 @@ func Test_sliceLoop(t *testing.T) {
 	}
 	fmt.Println(m)
 }
+
+func Test_sliceArrayAccess(t *testing.T) {
+	arrayF := func(a [10]int) *[10]int {
+		a[0] = 2
+		return &a
+	}
+	sliceF := func(s []int) *[]int {
+		s[0] = 2
+		return &s
+	}
+
+	a := [10]int{}
+	a[0] = 1
+	s := make([]int, 10)
+	s[0] = 1
+
+	fmt.Printf("%p\n", &a)
+	fmt.Printf("%p\n", arrayF(a))
+	fmt.Printf("%p\n", &s)
+	fmt.Printf("%p\n", sliceF(s))
+
+	fmt.Println(fmt.Sprintf("%p", &a) == fmt.Sprintf("%p", arrayF(a)))
+	fmt.Println(fmt.Sprintf("%p", &s) == fmt.Sprintf("%p", sliceF(s)))
+
+	fmt.Println(a) //[1 0 0 0 0 0 0 0 0 0]
+	fmt.Println(s) //[2 0 0 0 0 0 0 0 0 0]
+}
