@@ -7,6 +7,8 @@ import (
 	"testing"
 )
 
+//https://www.kancloud.cn/digest/batu-go/153537
+
 func Test_add(t *testing.T) {
 	var ops uint64
 	var wg sync.WaitGroup
@@ -114,4 +116,35 @@ func Test_swap(t *testing.T) {
 	}
 	wg.Wait()
 	fmt.Println("e : ", e)
+}
+
+// map 沒有 thread safe
+// Map 的concurrency 不穩定性 (可以參考Go FAQ: Atomic_Maps)，要寫concurrency program 要儘量避免使用map
+//https://golang.org/pkg/sync/atomic/#example_Value_readMostly
+func Test_map(t *testing.T) {
+	type Map map[string]string
+	var m atomic.Value
+	m.Store(make(Map))
+	var mu sync.Mutex // used only by writers
+	// read function can be used to read the data without further synchronization
+	read := func(key string) (val string) {
+		m1 := m.Load().(Map)
+		return m1[key]
+	}
+	// insert function can be used to update the data without further synchronization
+	insert := func(key, val string) {
+		mu.Lock() // synchronize with other potential writers
+		defer mu.Unlock()
+		m1 := m.Load().(Map) // load current value of the data structure
+		m2 := make(Map)      // create a new value
+		for k, v := range m1 {
+			m2[k] = v // copy all data from the current object to the new one
+		}
+		m2[key] = val // do the update that we need
+		m.Store(m2)   // atomically replace the current object with the new one
+		// At this point all new readers start working with the new version.
+		// The old version will be garbage collected once the existing readers
+		// (if any) are done with it.
+	}
+	_, _ = read, insert
 }
