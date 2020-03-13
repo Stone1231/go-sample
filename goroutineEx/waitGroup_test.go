@@ -25,8 +25,8 @@ func Test_sum0toMax(t *testing.T) {
 //WaitGroup
 func Test_sum0toMaxWaitGroup(t *testing.T) {
 	wg := new(sync.WaitGroup)
-	wg.Add(3)
 	for i := 0; i < 3; i++ {
+		wg.Add(1)
 		go func(id int) {
 			defer wg.Done() // = Add(-1)
 			sum0toMax(id)
