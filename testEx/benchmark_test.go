@@ -1,4 +1,4 @@
-package performanceex
+package testex
 
 import (
 	"testing"
@@ -29,16 +29,13 @@ func initSlice() []string {
 
 func BenchmarkForSlice(b *testing.B) {
 	s := initSlice()
-
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		ForSlice(s)
 	}
 }
-
 func BenchmarkRangeForSlice(b *testing.B) {
 	s := initSlice()
-
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		RangeForSlice(s)
