@@ -5,6 +5,8 @@ import (
 	"testing"
 )
 
+// 一個陣列和一個數字，數字會是這個陣列裡的某兩個數字的總和，答案就是這兩個數字在陣列的位置
+
 func twoSum(nums []int, target int) []int {
 
 	length := len(nums)

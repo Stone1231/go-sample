@@ -6,6 +6,8 @@ import (
 	"testing"
 )
 
+//一個正整數 s 和 一個陣列 nums[]，而我們要在這個陣列中找出 元素的和 >= s 的最小子陣列 Subarray
+
 func minSubArrayLen(s int, nums []int) int {
 	n := len(nums)
 	min_len := math.MaxUint32

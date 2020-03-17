@@ -6,12 +6,14 @@ import (
 	"testing"
 )
 
+//Given an array of integers, 1 ≤ a[i] ≤ n (n = size of array),
+//some elements appear twice and others appear once.
+//一個正整數 s 和 一個陣列 nums[]，而我們要在這個陣列中找出 元素的和 >= s 的最小子陣列 Subarray
+
 func abs(n int) int {
 	return int(math.Abs(float64(n)))
 }
 
-//Given an array of integers, 1 ≤ a[i] ≤ n (n = size of array),
-//some elements appear twice and others appear once.
 func findDuplicates(nums []int) []int {
 
 	_nums := &[]int{}
