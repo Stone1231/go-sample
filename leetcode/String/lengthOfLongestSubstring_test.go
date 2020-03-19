@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 )
-
+
 // Given a string, find the length of the longest substring without repeating characters.
 // Examples:
 // Given "abcabcbb", the answer is "abc", which the length is 3.
