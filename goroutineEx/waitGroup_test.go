@@ -98,7 +98,7 @@ func Test_WaitGroup(t *testing.T) {
 	wg.Add(20)
 	for i := 0; i < 10; i++ {
 		go func() {
-			fmt.Println("i", i)
+			fmt.Println(" ", i)
 			wg.Done()
 		}()
 	}

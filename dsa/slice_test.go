@@ -233,10 +233,11 @@ func Test_randomSlice2D(t *testing.T) {
 func Test_sliceAddress(t *testing.T) {
 
 	s := make([]int, 4)
-	s[0] = 2
-	fmt.Printf("s: %p\n", &s[0])
 	b := s
-	fmt.Printf("b: %p\n", &b[0])
+	fmt.Printf("&s: %p\n", &s)
+	fmt.Printf("&b: %p\n", &b)
+	fmt.Printf("&s[0]: %p\n", &s[0])
+	fmt.Printf("&b[0]: %p\n", &b[0])
 
 	// 不需要
 	// c := &s
