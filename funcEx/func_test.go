@@ -103,3 +103,9 @@ func Test_defer2(t *testing.T) {
 	defer fn("4", fn("5", "6"))
 	defer fn("1", fn("2", "3"))
 }
+
+func Test_defer3(t *testing.T) {
+	defer fmt.Println("會執行")
+	return
+	defer fmt.Println("不會執行")
+}
